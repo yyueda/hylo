@@ -6,9 +6,13 @@ import {
   SignedIn,
   SignedOut,
   UserButton,
-} from '@clerk/nextjs'
+} from '@clerk/nextjs';
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
+import Topbar from "../../../components/shared/Topbar";
+import LeftSidebar from "../../../components/shared/LeftSidebar";
+import RightSidebar from "../../../components/shared/RightSidebar";
+import Bottombar from "../../../components/shared/Bottombar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,7 +40,7 @@ export default function RootLayout({
           <body
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}
           >
-            <header className="flex justify-end items-center p-4 gap-4 h-16">
+            {/* <header className="flex justify-end items-center p-4 gap-4 h-16">
               <SignedOut>
                 <SignInButton />
                 <SignUpButton />
@@ -44,8 +48,19 @@ export default function RootLayout({
               <SignedIn>
                 <UserButton />
               </SignedIn>
-            </header>
-            {children}
+            </header> */}
+
+            <Topbar />
+              <main>
+                <LeftSidebar />
+                  <section className="main-container">
+                    <div className="w-full max-w-4xl">
+                      {children}
+                    </div>
+                  </section>
+                <RightSidebar />
+              </main>
+            <Bottombar />
           </body>
         </html>
       </ClerkProvider>

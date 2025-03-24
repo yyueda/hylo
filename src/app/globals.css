@@ -58,7 +58,7 @@
   /* Head Text */
   .head-text {
     /* @apply text-heading2-bold text-light-1; */
-    @apply text-light-1;
+    @apply text-light-1 text-3xl font-bold;
   }
 
   /* Activity */
