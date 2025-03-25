@@ -19,6 +19,51 @@
   --color-gray-1: #697C89;
   --color-glassmorphism: rgba(16, 16, 18, 0.60);
 
+  /* Text */
+  --text-heading1-bold: 2.25rem;
+  --text-heading1-bold--line-height: 1.4;
+  --text-heading1-bold--font-weight: 700;
+
+  --text-heading1-semibold: 2.25rem;
+  --text-heading1-semibold--line-height: 1.4;
+  --text-heading1-semibold--font-weight: 600;
+
+  --text-heading2-bold: 1.875rem;
+  --text-heading2-bold--line-height: 1.4;
+  --text-heading2-bold--font-weight: 700;
+
+  --text-heading2-semibold: 1.875rem;
+  --text-heading2-semibold--line-height: 1.4;
+  --text-heading2-semibold--font-weight: 600;
+
+  --text-heading3-bold: 1.5rem;
+  --text-heading3-bold--line-height: 1.4;
+  --text-heading3-bold--font-weight: 700;
+
+  --text-heading4-medium: 1.25rem;
+  --text-heading4-medium--line-height: 1.4;
+  --text-heading4-medium--font-weight: 500;
+
+  --text-body-bold: 1.125rem;
+  --text-body-bold--line-height: 1.4;
+  --text-body-bold--font-weight: 700;
+
+  --text-body-semibold: 1.125rem;
+  --text-body-semibold--line-height: 1.4;
+  --text-body-semibold--font-weight: 600;
+
+  --text-body-medium: 1.125rem;
+  --text-body-medium--line-height: 1.4;
+  --text-body-medium--font-weight: 500;
+
+  --text-body-normal: 1.125rem;
+  --text-body-normal--line-height: 1.4;
+  --text-body-normal--font-weight: 400;
+
+  --text-base-regular: 1rem;
+  --text-base-regular--line-height: 1.4;
+  --text-base-regular--font-weight: 400;
+
   /* Shadows */
   --shadow-count-badge: 0px 0px 6px 2px rgba(219, 188, 159, 0.30);
   --shadow-groups-sidebar: -30px 0px 60px 0px rgba(28, 28, 31, 0.50);
@@ -57,8 +102,7 @@
 
   /* Head Text */
   .head-text {
-    /* @apply text-heading2-bold text-light-1; */
-    @apply text-light-1 text-3xl font-bold;
+    @apply text-heading2-bold text-light-1;
   }
 
   /* Activity */
@@ -68,8 +112,7 @@
 
   /* No Result */
   .no-result {
-    /* @apply text-center !text-base-regular text-light-3; */
-    @apply text-center text-light-3;
+    @apply text-center !text-base-regular text-light-3;
   }
 
   /* Community Card */
