@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import { ClerkProvider } from '@clerk/nextjs';
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
-import Topbar from "../../../components/shared/Topbar";
-import LeftSidebar from "../../../components/shared/LeftSidebar";
-import RightSidebar from "../../../components/shared/RightSidebar";
-import Bottombar from "../../../components/shared/Bottombar";
+import Topbar from "@/components/shared/Topbar";
+import LeftSidebar from "@/components/shared/LeftSidebar";
+import RightSidebar from "@/components/shared/RightSidebar";
+import Bottombar from "@/components/shared/Bottombar";
 import { dark } from "@clerk/themes";
 
 const geistSans = Geist({
