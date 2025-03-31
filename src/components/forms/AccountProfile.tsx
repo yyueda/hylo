@@ -20,9 +20,11 @@ import { Textarea } from '../ui/textarea';
 import { useState } from 'react';
 import { isBase64Image } from '@/lib/utils';
 import { useUploadThing } from '@/lib/uploadthing';
+import { updateUser } from '@/lib/actions/user.actions';
+import { usePathname, useRouter } from 'next/navigation';
 
 export type UserInfoFromDB = {
-    _id: string
+    id: string
     objectId: string
     username: string
     name: string
@@ -37,11 +39,9 @@ type accountProfileProps = {
 
 function AccountProfile({ user, btnTitle }: accountProfileProps) {
     const [files, setFiles] = useState<File[]>([]);
-    const { startUpload } = useUploadThing('media', {
-        onClientUploadComplete: (res) => {
-
-        }
-    });
+    const { startUpload } = useUploadThing('media');
+    const router = useRouter();
+    const pathname = usePathname();
 
     const form = useForm<z.infer<typeof UserValidation>>({
         resolver: zodResolver(UserValidation),
@@ -86,6 +86,20 @@ function AccountProfile({ user, btnTitle }: accountProfileProps) {
         }
 
         //TODO: Update user profile
+        await updateUser({
+            userId: user.id,
+            username: values.username,
+            name: values.name,
+            bio: values.bio,
+            image: values.profile_photo,
+            path: pathname
+        });
+
+        if (pathname === '/profile/edit') {
+            router.back();
+        } else {
+            router.push('/');
+        }
     }
     
     return (

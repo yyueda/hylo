@@ -3,10 +3,14 @@ import AccountProfile, { type UserInfoFromDB } from "@/components/forms/AccountP
 
 async function Page() {
     const user = await currentUser();
+    if (!user) {
+        throw new Error("User is not authenticated");
+    }
+    
     const userInfo = {};
 
     const userData: UserInfoFromDB = {
-        id: user?.id,
+        id: user.id,
         objectId: userInfo?._id,
         username: userInfo?.username || user?.username,
         name: userInfo?.name || user?.firstName || '',
