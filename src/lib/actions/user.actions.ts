@@ -45,3 +45,20 @@ export async function updateUser({
         }
     }
 }
+
+export async function fetchUser(userId: string) {
+    connectToDB();
+
+    try {
+        return await User
+            .findOne({ id: userId })
+            // .populate({
+            //     path: 'communities',
+            //     model: Community
+            // });
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            throw new Error(`Failed to fetch user: ${error.message}`);
+        }
+    }
+}
