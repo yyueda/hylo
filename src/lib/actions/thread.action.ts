@@ -20,16 +20,21 @@ export async function createThread({
 }: createThreadProps) {
     connectToDB();
 
-    const createdThread = await Thread.create({
-        text,
-        author,
-        community: null,
-    })
+    try {
+        const createdThread = await Thread.create({
+            text,
+            author,
+            community: null,
+        })
 
-    // Author is the id and not the _id
-    await User.findByIdAndUpdate(author, {
-        $push : { threads: createdThread._id }
-    })
+        await User.findByIdAndUpdate(author, {
+            $push : { threads: createdThread._id }
+        })
 
-    revalidatePath(path);
+        revalidatePath(path);
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            throw new Error(`Failed to create thread: ${error.message}`);
+        }
+    }
 };

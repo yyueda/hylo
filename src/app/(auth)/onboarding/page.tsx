@@ -1,13 +1,16 @@
 import { currentUser } from "@clerk/nextjs/server";
 import AccountProfile, { type UserInfoFromDB } from "@/components/forms/AccountProfile";
+import { fetchUser } from "@/lib/actions/user.actions";
+import { redirect } from "next/navigation";
 
 async function Page() {
     const user = await currentUser();
     if (!user) {
         throw new Error("User is not authenticated");
     }
-    
-    const userInfo = {};
+
+    const userInfo = await fetchUser(user.id);
+    if (userInfo?.onboarded) redirect("/");
 
     const userData: UserInfoFromDB = {
         id: user.id,
