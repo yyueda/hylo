@@ -10,11 +10,11 @@ async function Page() {
     }
 
     const userInfo = await fetchUser(user.id);
-    if (userInfo?.onboarded) redirect("/");
+    if (userInfo.onBoarded) redirect("/");
 
     const userData: UserInfoFromDB = {
         id: user.id,
-        objectId: userInfo?._id,
+        objectId: userInfo?._id.toString(),
         username: userInfo?.username || user?.username,
         name: userInfo?.name || user?.firstName || '',
         bio: userInfo?.bio || '',

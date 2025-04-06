@@ -11,6 +11,14 @@ const nextConfig: NextConfig = {
         port: '',
         search: '',
       },
+      {
+        protocol: "https",
+        hostname: "uploadthing.com",
+      },
+      {
+        protocol: 'https',
+        hostname: '*.ufs.sh', // ✅ allow any subdomain of ufs.sh
+      },
     ],
   },
 };
