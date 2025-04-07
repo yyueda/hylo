@@ -55,7 +55,7 @@ function Comment({ threadId, currentUserImg, currentUserId }: commentProps) {
                                     src={currentUserImg}
                                     alt="Profile picture"
                                     width={48}
-                                    height={96}
+                                    height={48}
                                     className="rounded-full object-cover"
                                 />
                             </FormLabel>
