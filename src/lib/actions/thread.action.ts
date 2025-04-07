@@ -68,7 +68,47 @@ export async function fetchThreads({ pageNumber = 1, pageSize = 20 }) {
 
     } catch (error: unknown) {
         if (error instanceof Error) {
-            throw new Error(`Failed to create thread: ${error.message}`);
+            throw new Error(`Failed to fetch threads: ${error.message}`);
         }
     }
 };
+
+export async function fetchThreadById(id: string) {
+    connectToDB();
+
+    // TODO: Populate Community
+    try {
+        const thread = await Thread.findById(id)
+            .populate({
+                path: 'author',
+                model: User,
+                select: '_id id username image'
+            })
+            .populate({ 
+                path: 'children', 
+                model: Thread,
+                populate: [
+                    {
+                        path: 'author',
+                        model: User,
+                        select: '_id id username parentId image'
+                    },
+                    {
+                        path: 'children',
+                        model: Thread,
+                        populate: {
+                            path: 'author',
+                            model: User,
+                            select: '_id id username parentId image'
+                        }
+                    }
+                ]
+            });
+        
+        return thread;
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(`Failed to fetch thread: ${error.message}`);
+        }
+    }
+}
