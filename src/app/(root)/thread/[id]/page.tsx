@@ -1,4 +1,5 @@
 import ThreadCard from "@/components/cards/ThreadCard";
+import Comment from "@/components/forms/Comment";
 import { fetchThreadById } from "@/lib/actions/thread.action";
 import { fetchUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs/server";
@@ -19,8 +20,8 @@ async function Page({ params }: { params: Promise<{ id: string }> }) {
         <section className="relative">
             <div>
                 <ThreadCard
-                    key={thread._id}
-                    id={thread._id}
+                    key={id}
+                    id={id}
                     currentUserId={user.id}
                     parentId={thread.parentId}
                     content={thread.text}
@@ -28,6 +29,14 @@ async function Page({ params }: { params: Promise<{ id: string }> }) {
                     community={thread.community}
                     createdAt={thread.createdAt}
                     comments={thread.children}
+                />
+            </div>
+            
+            <div className="mt-7">
+                <Comment 
+                    threadId={id}
+                    currentUserImg={user.imageUrl}
+                    currentUserId={user.id}
                 />
             </div>
         </section>
