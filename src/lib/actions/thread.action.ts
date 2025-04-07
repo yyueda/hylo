@@ -12,6 +12,13 @@ type createThreadProps = {
     path: string,
 };
 
+type addCommentProps = { 
+    threadId: string,
+    commentText: string,
+    userId: string,
+    path: string 
+};
+
 export async function createThread({
     text,
     author,
@@ -106,6 +113,37 @@ export async function fetchThreadById(id: string) {
             });
         
         return thread;
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(`Failed to fetch thread: ${error.message}`);
+        }
+    }
+};
+
+export async function addCommentToThread({
+    threadId,
+    commentText,
+    userId,
+    path
+} : addCommentProps) {
+    connectToDB();
+
+    try {
+        const originalThread = await Thread.findById(threadId);
+        if (!originalThread) throw new Error('Thread not found');
+
+        const commentThread = new Thread({
+            text: commentText,
+            author: userId,
+            parentId: threadId
+        });
+        const savedCommentThread = await commentThread.save();
+
+        originalThread.children.push(savedCommentThread._id);
+        await originalThread.save();
+
+        revalidatePath(path)
+
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(`Failed to fetch thread: ${error.message}`);

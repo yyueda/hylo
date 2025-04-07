@@ -36,7 +36,7 @@ async function Page({ params }: { params: Promise<{ id: string }> }) {
                 <Comment 
                     threadId={id}
                     currentUserImg={user.imageUrl}
-                    currentUserId={user.id}
+                    currentUserId={userInfo._id.toString()}
                 />
             </div>
         </section>

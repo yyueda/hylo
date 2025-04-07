@@ -9,6 +9,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import Image from "next/image";
+import { addCommentToThread } from "@/lib/actions/thread.action";
 
 type commentProps = {
     threadId: string,
@@ -28,8 +29,14 @@ function Comment({ threadId, currentUserImg, currentUserId }: commentProps) {
     });
 
     const onSubmit = async (values: z.infer<typeof CommentValidation>) => {
-        console.log(values)
-        // router.push('/');
+        await addCommentToThread({
+            threadId: threadId,
+            commentText: values.thread,
+            userId: currentUserId,
+            path: pathName
+        });
+
+        form.reset()
     }
 
     return (
