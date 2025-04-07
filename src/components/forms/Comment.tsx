@@ -55,7 +55,7 @@ function Comment({ threadId, currentUserImg, currentUserId }: commentProps) {
                                     src={currentUserImg}
                                     alt="Profile picture"
                                     width={48}
-                                    height={48}
+                                    height={96}
                                     className="rounded-full object-cover"
                                 />
                             </FormLabel>
@@ -71,7 +71,7 @@ function Comment({ threadId, currentUserImg, currentUserId }: commentProps) {
                         </FormItem>
                     )}
                 />
-                <Button type='submit' className='comment-form_btn'>Reply</Button>
+                <Button type='submit' className='comment-form_btn cursor-pointer'>Reply</Button>
             </form>
         </Form>
     );
