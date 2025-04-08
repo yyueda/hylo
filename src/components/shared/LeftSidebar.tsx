@@ -7,7 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { SignOutButton } from "@clerk/nextjs";
 import { SignedIn } from "@clerk/clerk-react";
 
-function LeftSidebar() {
+function LeftSidebar({ userId }: { userId: string }) {
     const router = useRouter();
     const pathname = usePathname();
 
@@ -18,6 +18,8 @@ function LeftSidebar() {
                     const isActive = (pathname.includes(link.route) && link.route.length > 1) ||
                                         pathname == link.route;
 
+                    if (link.route === '/profile') link.route = `/profile/${userId}`
+                    
                     return (
                         <Link
                             href={link.route}

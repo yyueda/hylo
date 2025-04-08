@@ -150,3 +150,30 @@ export async function addCommentToThread({
         }
     }
 }
+
+export async function fetchUserPosts(userId: string) {
+    connectToDB();
+
+    try {
+        return await User
+            .findOne({ id: userId })
+            .populate({
+                path: 'threads',
+                model: Thread,
+                populate: {
+                    path: 'children',
+                    model: Thread,
+                    populate: {
+                        path: 'author',
+                        model: User,
+                        select: 'id username image'
+                    }
+                }
+            });
+
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(`Failed to fetch user's posts: ${error.message}`);
+        }
+    }
+}
