@@ -6,6 +6,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
 async function Page({ params }: { params: Promise<{ id: string }> }) {
+    console.log('🔁 Re-rendering server component with latest data');
     const { id } = await params;
 
     const user = await currentUser();
