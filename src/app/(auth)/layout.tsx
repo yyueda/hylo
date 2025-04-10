@@ -5,7 +5,7 @@ import { Metadata } from "next";
 import { dark } from "@clerk/themes";
 
 export const metadata: Metadata = {
-    title: 'Threads',
+    title: 'Hylo',
     description: 'A NextJS Threads Application'
 }
 
