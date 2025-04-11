@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import Thread from "../models/thread.model";
 import User from "../models/user.model";
 import { connectToDB } from "../mongoose";
+import mongoose from "mongoose";
 
 type createThreadProps = {
     text: string,
@@ -28,16 +29,19 @@ export async function createThread({
     connectToDB();
 
     try {
-        const createdThread = await Thread.create({
-            text,
-            author,
-            community: null,
-        })
-
-        await User.findByIdAndUpdate(author, {
-            $push : { threads: createdThread._id }
-        })
-
+        const session = await mongoose.startSession();
+        await session.withTransaction(async () => {
+            const [createdThread] = await Thread.create({
+                text,
+                author,
+                community: null,
+            }, { session: session });
+    
+            await User.findByIdAndUpdate(author, {
+                $push : { threads: createdThread._id }
+            }, { session: session });
+        });
+        
         revalidatePath(path);
     } catch (error: unknown) {
         if (error instanceof Error) {
@@ -129,20 +133,23 @@ export async function addCommentToThread({
     connectToDB();
 
     try {
-        const originalThread = await Thread.findById(threadId);
-        if (!originalThread) throw new Error('Thread not found');
+        const session = await mongoose.startSession();
+        await session.withTransaction(async () => {
+            const originalThread = await Thread.findById(threadId);
+            if (!originalThread) throw new Error('Thread not found');
 
-        const commentThread = new Thread({
-            text: commentText,
-            author: userId,
-            parentId: threadId
+            const commentThread = new Thread({
+                text: commentText,
+                author: userId,
+                parentId: threadId
+            });
+            const savedCommentThread = await commentThread.save({ session });
+            
+            originalThread.children.push(savedCommentThread._id);
+            await originalThread.save({ session });
         });
-        const savedCommentThread = await commentThread.save();
 
-        originalThread.children.push(savedCommentThread._id);
-        await originalThread.save();
-
-        revalidatePath(path)
+        revalidatePath(path);
 
     } catch (error) {
         if (error instanceof Error) {
