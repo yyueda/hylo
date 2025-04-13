@@ -9,8 +9,8 @@ function Topbar() {
                 href="/"
                 className="flex items-center gap-4"  
             >
-                <Image src="/assets/logo.svg" alt="logo" width={28} height={28} />
-                <p className="text-heading3-bold text-light-1 max-xs:hidden">Threads</p>
+                <Image src="/assets/logo.svg" alt="logo" width={56} height={56} />
+                <p className="text-heading3-bold text-light-1 max-xs:hidden">Hylo</p>
             </Link>
 
             <div className="flex items-center gap-1">

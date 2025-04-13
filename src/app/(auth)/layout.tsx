@@ -5,7 +5,7 @@ import { Metadata } from "next";
 import { dark } from "@clerk/themes";
 
 export const metadata: Metadata = {
-    title: 'Threads',
+    title: 'Hylo',
     description: 'A NextJS Threads Application'
 }
 
@@ -24,7 +24,9 @@ export default function RootLayout({
         >
             <html lang="en">
                 <body className={`${inter.className} bg-dark-1`}>
-                    {children}
+                    <div className="w-full flex justify-center items-center min-h-screen">
+                        {children}
+                    </div>
                 </body>
             </html>
         </ClerkProvider>
