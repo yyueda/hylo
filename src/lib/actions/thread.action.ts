@@ -41,7 +41,6 @@ export async function createThread({
                 $push : { threads: createdThread._id }
             }, { session: session });
         });
-        
         revalidatePath(path);
     } catch (error: unknown) {
         if (error instanceof Error) {
