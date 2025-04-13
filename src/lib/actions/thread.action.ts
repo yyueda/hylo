@@ -5,6 +5,7 @@ import Thread from "../models/thread.model";
 import User from "../models/user.model";
 import { connectToDB } from "../mongoose";
 import mongoose from "mongoose";
+import Community from "../models/community.model";
 
 type createThreadProps = {
     text: string,
@@ -31,15 +32,24 @@ export async function createThread({
     try {
         const session = await mongoose.startSession();
         await session.withTransaction(async () => {
-            const [createdThread] = await Thread.create({
+            const communityIdObject = await Community.findOne({ id: communityId })
+                .select('_id');
+
+            const [createdThread] = await Thread.create([{
                 text,
                 author,
-                community: null,
-            }, { session: session });
-    
+                community: communityIdObject,
+            }], { session: session });
+            
             await User.findByIdAndUpdate(author, {
                 $push : { threads: createdThread._id }
             }, { session: session });
+
+            if (communityIdObject) {
+                await Community.findByIdAndUpdate(communityIdObject, {
+                  $push: { threads: createdThread._id },
+                });
+              }
         });
         revalidatePath(path);
     } catch (error: unknown) {
@@ -60,6 +70,7 @@ export async function fetchThreads({ pageNumber = 1, pageSize = 20 }) {
             .skip(skipAmount)
             .limit(pageSize)
             .populate({ path: 'author', model: User })
+            .populate({ path: 'community', model: Community })
             .populate({ 
                 path: 'children', 
                 model: Thread,
@@ -93,6 +104,11 @@ export async function fetchThreadById(id: string) {
                 path: 'author',
                 model: User,
                 select: '_id id username image'
+            })
+            .populate({
+                path: 'community',
+                model: Community,
+                select: '_id id name image'
             })
             .populate({ 
                 path: 'children', 
@@ -166,7 +182,13 @@ export async function fetchUserPosts(userId: string) {
             .populate({
                 path: 'threads',
                 model: Thread,
-                populate: {
+                populate: [
+                    {
+                        path: 'community',
+                        model: Community,
+                        select: '_id id name image',
+                    },
+                    {
                     path: 'children',
                     model: Thread,
                     populate: {
@@ -174,7 +196,7 @@ export async function fetchUserPosts(userId: string) {
                         model: User,
                         select: 'id username image'
                     }
-                }
+                }]
             });
 
     } catch (error) {

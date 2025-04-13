@@ -20,8 +20,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Threads',
-  description: 'A NextJS Threads Application'
+  title: 'Hylo',
+  description: 'A NextJS Threads clone'
 }
 
 export default async function RootLayout({
