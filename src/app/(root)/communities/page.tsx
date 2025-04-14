@@ -1,5 +1,6 @@
-import UserCard from "@/components/cards/UserCard";
-import { fetchUser, fetchUsers } from "@/lib/actions/user.actions";
+import CommunityCard from "@/components/cards/CommunityCard";
+import { fetchCommunities } from "@/lib/actions/community.action";
+import { fetchUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
@@ -10,8 +11,7 @@ async function Page() {
     const userInfo = await fetchUser(user.id);
     if (!userInfo?.onBoarded) redirect('/onboarding');
 
-    const results = await fetchUsers({
-        userId: user.id,
+    const results = await fetchCommunities({
         searchString: '',
         pageNumber: 1,
         pageSize: 25,
@@ -24,18 +24,19 @@ async function Page() {
             <h1 className="head-text mb-10">Search</h1>
 
             <div>
-                {results.users.length === 0 ? (
+                {results.communities.length === 0 ? (
                     <p>No users</p>
                 ) : (
                     <>
-                        {results.users.map((user) => (
-                            <UserCard 
-                                key={user.id}
-                                id={user.id}
-                                name={user.name}
-                                username={user.username}
-                                image={user.image}
-                                personType="User"
+                        {results.communities.map((community) => (
+                            <CommunityCard
+                                key={community.id}
+                                id={community.id}
+                                name={community.name}
+                                username={community.username}
+                                image={community.image}
+                                bio={community.bio}
+                                members={community.members}
                             />
                         ))}
                     </>
