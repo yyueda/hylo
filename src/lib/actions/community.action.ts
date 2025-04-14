@@ -98,7 +98,7 @@ export async function fetchCommunityPosts(id: string) {
                     {
                         path: 'author',
                         model: User,
-                        select: '_id username image'
+                        select: '_id id username image'
                     },
                     {
                         path: 'children',
