@@ -1,6 +1,7 @@
 import { formatDateString } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
+import DeleteThread from "../forms/DeleteThread";
 
 type ThreadCardProps = {
     id: string,
@@ -70,7 +71,7 @@ function ThreadCard({
                                     height={24}
                                     className="cursor-pointer object-contain"
                                 />
-                                <Link href={`thread/${id}`}>
+                                <Link href={`/thread/${id}`}>
                                     <Image
                                         src="/assets/reply.svg"
                                         alt="reply"
@@ -105,6 +106,14 @@ function ThreadCard({
                         </div>
                     </div>
                 </div>
+
+                <DeleteThread 
+                    threadId={id.toString()}
+                    currentUserId={currentUserId}
+                    authorId={author.id}
+                    parentId={parentId}
+                    isComment={isComment}
+                />
             </div>
             {!isComment && community && (
                     <Link href={`/communities/${community.id}`} className="mt-5 flex items-center">
