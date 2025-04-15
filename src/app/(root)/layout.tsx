@@ -10,29 +10,29 @@ import { dark } from "@clerk/themes";
 import { auth } from "@clerk/nextjs/server";
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+    variable: "--font-geist-sans",
+    subsets: ["latin"],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+    variable: "--font-geist-mono",
+    subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: 'Hylo',
-  description: 'A NextJS Threads clone'
+    title: 'Hylo',
+    description: 'A NextJS Threads clone'
 }
 
 export default async function RootLayout({
-  children,
+    children,
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode;
 }>) {
-  const { userId } = await auth();
-  if (!userId) return null;
+    const { userId } = await auth();
+    if (!userId) return null;
 
-  return (
+    return (
     <ClerkProvider
         appearance={{
             baseTheme: dark
@@ -50,11 +50,13 @@ export default async function RootLayout({
                         {children}
                     </div>
                     </section>
-                <RightSidebar />
+                <RightSidebar
+                    userId={userId}
+                />
                 </main>
             <Bottombar />
             </body>
         </html>
         </ClerkProvider>
-  );
+    );
 }
