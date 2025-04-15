@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -204,7 +203,7 @@ function AccountProfile({ user, btnTitle }: accountProfileProps) {
                         </FormItem>
                     )}
                 />
-                <Button type='submit' className='bg-primary-500'>Submit</Button>
+                <Button type='submit' className='bg-primary-500'>{btnTitle}</Button>
             </form>
         </Form>
     );

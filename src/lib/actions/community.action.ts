@@ -1,6 +1,5 @@
 "use server";
 
-import path from "path";
 import Community from "../models/community.model";
 import Thread from "../models/thread.model";
 import User from "../models/user.model";
@@ -263,7 +262,6 @@ export async function deleteCommunity(communityId: string) {
 
         await Thread.deleteMany({ community: communityId });
 
-        const communityUsers = await User.find({ communities: communityId });
         User.updateMany(
             { communities: communityId },
             { $pull: { communities: communityId } }

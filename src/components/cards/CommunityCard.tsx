@@ -46,7 +46,7 @@ function CommunityCard({
 
             <div className="mt-5 flex items-center justify-between gap-3">
                 <Link href={`communities/${id}`}>
-                    <Button size='sm' className="community-card_btn">
+                    <Button size='sm' className="community-card_btn cursor-pointer">
                         View
                     </Button>
                 </Link>
