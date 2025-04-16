@@ -170,7 +170,7 @@ export async function addMemberToCommunity(
     connectToDB();
 
     try {
-        const community = await Community.findOne({ id: communityId }, '_id');
+        const community = await Community.findOne({ id: communityId }, '_id members');
         if (!community) throw new Error('Community not found');
 
         const user = await User.findOne({ id: memberId }, '_id');
