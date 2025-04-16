@@ -60,7 +60,7 @@ function ThreadCard({
                             <h4 className="cursor-pointer font-semibold text-light-1">{author.username}</h4>
                         </Link>
 
-                        <p className="mt-2 text-sm text-light-2">{content}</p>
+                        <pre className="mt-2 text-sm text-light-2 font-sans">{content}</pre>
 
                         <div className={`${isComment && 'mb-10'} mt-5 flex flex-col gap-3`}>
                             <div className="flex gap-3.5">
