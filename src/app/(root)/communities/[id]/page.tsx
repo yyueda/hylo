@@ -7,6 +7,21 @@ import { fetchCommunityDetails } from "@/lib/actions/community.action";
 import { communityTabs } from "@/constants";
 import UserCard from "@/components/cards/UserCard";
 
+type CommunityDetails = {
+    _id: string,
+    id: string,
+    username: string,
+    name: string,
+    image: string,
+    bio: string,
+    createdBy: string,
+    members: {
+        id: string,
+        username: string,
+        name: string,
+        image: string
+    }[]
+};
 
 async function Page({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
@@ -59,7 +74,7 @@ async function Page({ params }: { params: Promise<{ id: string }> }) {
                     </TabsContent>
                     <TabsContent value='members' className="w-full text-light-1">
                         <section>
-                            {communityDetails.members.map((member: any) => (
+                            {communityDetails.members.map((member: CommunityDetails) => (
                                 <UserCard 
                                     key={member.id}
                                     id={member.id}
@@ -71,8 +86,12 @@ async function Page({ params }: { params: Promise<{ id: string }> }) {
                             ))}
                         </section>
                     </TabsContent>
-                    <TabsContent value='threads' className="w-full text-light-1">
-
+                    <TabsContent value='requests' className="w-full text-light-1">
+                        <ThreadsTab 
+                                currentUserId={user.id}
+                                accountId={communityDetails._id}
+                                accountType="Community"
+                            />
                     </TabsContent>
             </Tabs>
 

@@ -147,9 +147,9 @@ function ThreadCard({
                         <Image 
                             src={community.image}
                             alt={community.name}
-                            width={14}
-                            height={14}
-                            className="ml-1 rounded-full object-cover"
+                            width={28}
+                            height={28}
+                            className="ml-1 rounded-full object-cover w-3.5 h-3.5"
                         />
                     </Link>
                 )}
