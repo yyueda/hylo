@@ -8,16 +8,17 @@ import { redirect } from "next/navigation";
 
 async function Page({
     searchParams
-}: { searchParams: { [key: string]: string | undefined } }) {
+}: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
     const user = await currentUser();
     if (!user) return null;
 
     const userInfo = await fetchUser(user.id);
     if (!userInfo?.onBoarded) redirect('/onboarding');
 
+    const resolvedParams = await searchParams;
     const results = await fetchCommunities({
-        searchString: searchParams.q,
-        pageNumber: searchParams.page ? +searchParams.page : 1,
+        searchString: resolvedParams.q,
+        pageNumber: resolvedParams.page ? +resolvedParams.page : 1,
         pageSize: 25,
         sortBy: 'desc'
     });
@@ -55,7 +56,7 @@ async function Page({
 
             <Pagination 
                 path="communities"
-                pageNumber={searchParams.page ? + searchParams.page : 1}
+                pageNumber={resolvedParams.page ? + resolvedParams.page : 1}
                 isNext={results.isNext}
             />
         </section>
