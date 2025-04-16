@@ -2,7 +2,7 @@
 
 import { CommentValidation } from "@/lib/validations/thread";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
@@ -18,7 +18,6 @@ type commentProps = {
 }
 
 function Comment({ threadId, currentUserImg, currentUserId }: commentProps) {
-    const router = useRouter();
     const pathName = usePathname();
 
     const form = useForm<z.infer<typeof CommentValidation>>({
