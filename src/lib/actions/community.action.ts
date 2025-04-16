@@ -1,6 +1,5 @@
 "use server";
 
-import path from "path";
 import Community from "../models/community.model";
 import Thread from "../models/thread.model";
 import User from "../models/user.model";
@@ -98,7 +97,7 @@ export async function fetchCommunityPosts(id: string) {
                     {
                         path: 'author',
                         model: User,
-                        select: '_id username image'
+                        select: '_id id username image'
                     },
                     {
                         path: 'children',
@@ -171,7 +170,7 @@ export async function addMemberToCommunity(
     connectToDB();
 
     try {
-        const community = await Community.findOne({ id: communityId }, '_id');
+        const community = await Community.findOne({ id: communityId }, '_id members');
         if (!community) throw new Error('Community not found');
 
         const user = await User.findOne({ id: memberId }, '_id');
@@ -263,7 +262,6 @@ export async function deleteCommunity(communityId: string) {
 
         await Thread.deleteMany({ community: communityId });
 
-        const communityUsers = await User.find({ communities: communityId });
         User.updateMany(
             { communities: communityId },
             { $pull: { communities: communityId } }

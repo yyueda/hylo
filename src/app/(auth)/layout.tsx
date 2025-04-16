@@ -6,7 +6,7 @@ import { dark } from "@clerk/themes";
 
 export const metadata: Metadata = {
     title: 'Hylo',
-    description: 'A NextJS Threads Application'
+    description: 'A NextJS Threads clone'
 }
 
 const inter = Inter({ subsets: ['latin'] });

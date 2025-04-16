@@ -3,12 +3,11 @@
 import Link from "next/link";
 import { sidebarLinks } from "../../constants";
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { SignOutButton } from "@clerk/nextjs";
 import { SignedIn } from "@clerk/clerk-react";
 
 function LeftSidebar({ userId }: { userId: string }) {
-    const router = useRouter();
     const pathname = usePathname();
 
     return (

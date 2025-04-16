@@ -20,6 +20,7 @@ function UserCard({
     personType
 }: userCardProps) {
     const router = useRouter();
+    const isCommunity = personType === 'Community';
 
     return (
         <section className="user-card">
@@ -38,7 +39,16 @@ function UserCard({
                 </div>
             </div>
 
-            <Button className="user-card_btn cursor-pointer" onClick={(e) => router.push(`/profile/${id}`)}>
+            <Button 
+                className="user-card_btn cursor-pointer" 
+                onClick={() => {
+                    if (isCommunity) { 
+                        router.push(`/communities/${id}`)
+                    } else {
+                        router.push(`/profile/${id}`)
+                    }
+                }}
+            >
                 View
             </Button>
         </section>

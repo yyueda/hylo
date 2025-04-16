@@ -5,6 +5,7 @@ import User from "../models/user.model";
 import { connectToDB } from "../mongoose"
 import { FilterQuery, SortOrder } from "mongoose";
 import Thread from "../models/thread.model";
+import Community from "../models/community.model";
 
 type updateUserProps = {
     userId: string,
@@ -62,10 +63,10 @@ export async function fetchUser(userId: string) {
     try {
         return await User
             .findOne({ id: userId })
-            // .populate({
-            //     path: 'communities',
-            //     model: Community
-            // });
+            .populate({
+                path: 'communities',
+                model: Community
+            });
     } catch (error: unknown) {
         if (error instanceof Error) {
             throw new Error(`Failed to fetch user: ${error.message}`);

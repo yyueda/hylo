@@ -1,5 +1,4 @@
 import { addMemberToCommunity, createCommunity, deleteCommunity, removeMemberFromCommunity, updateCommunityInfo } from "@/lib/actions/community.action";
-import { IncomingHttpHeaders } from "http";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { Webhook, WebhookRequiredHeaders } from "svix";
@@ -44,7 +43,7 @@ export async function POST(req: Request) {
     const eventType = evt.type;
 
     if (eventType == 'organization.created') {
-        const { id, name, slug, logo_url, image_url, created_by } = evt.data;
+        const { id, name, slug, image_url, created_by } = evt.data;
 
         try {
             await createCommunity({

@@ -1,7 +1,8 @@
-import UserCard from "@/components/cards/UserCard";
+import CommunityCard from "@/components/cards/CommunityCard";
 import Pagination from "@/components/shared/Pagination";
 import Searchbar from "@/components/shared/Searchbar";
-import { fetchUser, fetchUsers } from "@/lib/actions/user.actions";
+import { fetchCommunities } from "@/lib/actions/community.action";
+import { fetchUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
@@ -15,8 +16,7 @@ async function Page({
     if (!userInfo?.onBoarded) redirect('/onboarding');
 
     const resolvedParams = await searchParams;
-    const results = await fetchUsers({
-        userId: user.id,
+    const results = await fetchCommunities({
         searchString: resolvedParams.q,
         pageNumber: resolvedParams.page ? +resolvedParams.page : 1,
         pageSize: 25,
@@ -26,33 +26,36 @@ async function Page({
 
     return (
         <section>
-            <h1 className="head-text mb-10">Search</h1>
+            <h1 className="head-text">Communities</h1>
 
-            <Searchbar 
-                routeType="search"
-            />
+            <div className="mt-5">
+                <Searchbar
+                    routeType="communities"
+                />
+            </div>
 
-            <div className="mt-14 flex flex-col gap-9">
-                {results.users.length === 0 ? (
+            <section className="mt-9 flex flex-wrap gap-4">
+                {results.communities.length === 0 ? (
                     <p>No users</p>
                 ) : (
                     <>
-                        {results.users.map((user) => (
-                            <UserCard 
-                                key={user.id}
-                                id={user.id}
-                                name={user.name}
-                                username={user.username}
-                                image={user.image}
-                                personType="User"
+                        {results.communities.map((community) => (
+                            <CommunityCard
+                                key={community.id}
+                                id={community.id}
+                                name={community.name}
+                                username={community.username}
+                                image={community.image}
+                                bio={community.bio}
+                                members={community.members}
                             />
                         ))}
                     </>
                 )}
-            </div>
+            </section>
 
             <Pagination 
-                path="search"
+                path="communities"
                 pageNumber={resolvedParams.page ? + resolvedParams.page : 1}
                 isNext={results.isNext}
             />
