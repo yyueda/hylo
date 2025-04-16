@@ -5,8 +5,25 @@ import { fetchUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
+type clientThread = {
+    _id: string,
+    text: string,
+    parentId: string | null,
+    createdAt: string,
+    author: {
+        id: string,
+        username: string,
+        image: string
+    },
+    community: {
+        id: string,
+        name: string,
+        image: string
+    } | null,
+    children: clientThread[]
+};
+
 async function Page({ params }: { params: Promise<{ id: string }> }) {
-    console.log('🔁 Re-rendering server component with latest data');
     const { id } = await params;
 
     const user = await currentUser();
@@ -42,7 +59,7 @@ async function Page({ params }: { params: Promise<{ id: string }> }) {
             </div>
 
             <div className="mt-10">
-                {thread.children.map((child: any) => (
+                {thread.children.map((child: clientThread) => (
                 <ThreadCard
                     key={child._id}
                     id={child._id}
