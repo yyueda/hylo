@@ -1,10 +1,14 @@
 import CommunityCard from "@/components/cards/CommunityCard";
+import Pagination from "@/components/shared/Pagination";
+import Searchbar from "@/components/shared/Searchbar";
 import { fetchCommunities } from "@/lib/actions/community.action";
 import { fetchUser } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
-async function Page() {
+async function Page({
+    searchParams
+}: { searchParams: { [key: string]: string | undefined } }) {
     const user = await currentUser();
     if (!user) return null;
 
@@ -12,8 +16,8 @@ async function Page() {
     if (!userInfo?.onBoarded) redirect('/onboarding');
 
     const results = await fetchCommunities({
-        searchString: '',
-        pageNumber: 1,
+        searchString: searchParams.q,
+        pageNumber: searchParams.page ? +searchParams.page : 1,
         pageSize: 25,
         sortBy: 'desc'
     });
@@ -23,7 +27,13 @@ async function Page() {
         <section>
             <h1 className="head-text">Communities</h1>
 
-            <div>
+            <div className="mt-5">
+                <Searchbar
+                    routeType="communities"
+                />
+            </div>
+
+            <section className="mt-9 flex flex-wrap gap-4">
                 {results.communities.length === 0 ? (
                     <p>No users</p>
                 ) : (
@@ -41,7 +51,13 @@ async function Page() {
                         ))}
                     </>
                 )}
-            </div>
+            </section>
+
+            <Pagination 
+                path="communities"
+                pageNumber={searchParams.page ? + searchParams.page : 1}
+                isNext={results.isNext}
+            />
         </section>
     );
 }
